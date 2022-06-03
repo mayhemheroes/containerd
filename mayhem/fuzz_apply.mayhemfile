@@ -1,0 +1,4 @@
+project: PROJECT
+target: fuzz_apply
+cmds:
+- cmd: /out/fuzz_apply
