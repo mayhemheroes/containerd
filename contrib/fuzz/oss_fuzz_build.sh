@@ -2,7 +2,7 @@
 
 #   Copyright The containerd Authors.
 
-#   Licensed under the Apache License, Version 2.0 (the "License");
+#   Licensed under the Apache License, Version 2.0 (the License);
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
 
@@ -38,20 +38,12 @@ compile_fuzzers() {
 }
 
 apt-get update && apt-get install -y wget
-cd $SRC
-wget --quiet https://go.dev/dl/go1.24.9.linux-amd64.tar.gz
-
-mkdir temp-go
-rm -rf /root/.go/*
-tar -C temp-go/ -xzf go1.24.9.linux-amd64.tar.gz
-mv temp-go/go/* /root/.go/
 cd $SRC/containerd
 
 printf "package client\nimport _ \"github.com/AdamKorcz/go-118-fuzz-build/testing\"\n" > client/registerfuzzdep.go
 go mod tidy
 
-cd "$(dirname "${BASH_SOURCE[0]}")"
-cd ../../
+cd "$(dirname "${BASH_SOURCE[0]}")"/../../
 
 rm -r vendor
 
@@ -87,7 +79,7 @@ make STATIC=1
 mkdir $OUT/containerd-binaries || true
 cd $SRC/containerd/bin && cp * $OUT/containerd-binaries/ && cd -
 
-# Change defaultState and defaultAddress fron /run/containerd-test to /tmp/containerd-test:
+# Change defaultState and defaultAddress from /run/containerd-test to /tmp/containerd-test:
 sed -i 's/\/run\/containerd-test/\/tmp\/containerd-test/g' $SRC/containerd/integration/client/client_unix_test.go
 
 cd integration/client
