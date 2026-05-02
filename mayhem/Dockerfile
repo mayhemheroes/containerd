@@ -18,7 +18,6 @@ FROM gcr.io/oss-fuzz-base/base-builder-go
 RUN apt-get update && apt-get install -y btrfs-progs libc-dev pkg-config libseccomp-dev gcc wget libbtrfs-dev
 COPY . containerd
 RUN rm -rf containerd/mayhem
-RUN git clone --depth 1 https://github.com/cncf/cncf-fuzzing
 COPY mayhem/build.sh $SRC/
 WORKDIR $SRC/containerd
 
